@@ -251,11 +251,30 @@ body {
 
 .dj-setup {
     margin-top: 40px;
-    background: rgba(30, 30, 30, 0.8);
+    background: rgba(30, 30, 30, 0.95);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 0 50px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 0 50px rgba(0, 123, 255, 0.2),
+                inset 0 0 30px rgba(0, 123, 255, 0.05);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 123, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.dj-setup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg, transparent 95%, rgba(0, 123, 255, 0.05) 100%),
+        linear-gradient(0deg, transparent 95%, rgba(0, 123, 255, 0.05) 100%);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .other-title {
@@ -306,27 +325,13 @@ body {
     overflow: hidden;
 }
 
-.disc-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30px;
-    height: 30px;
-    background: #000;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    z-index: 3;
-}
-
 .disc-label {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle at center, #007bff, #004a99);
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -335,6 +340,16 @@ body {
     text-align: center;
     padding: 10px;
     z-index: 2;
+}
+
+.disc-label i.fa-apple {
+    color: #A2AAAD;
+    font-size: 3em;
+}
+
+.disc-label i.fa-soundcloud {
+    color: #FF3300;
+    font-size: 3.5em;
 }
 
 .disc-title {
@@ -372,8 +387,14 @@ body {
     animation-play-state: paused;
 }
 
-.dj-disc:hover .disc-label {
-    background: radial-gradient(circle at center, #0056b3, #003166);
+.dj-disc:hover .disc-label i.fa-apple {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.dj-disc:hover .disc-label i.fa-soundcloud {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 
 /* Mixer Section */
@@ -390,6 +411,42 @@ body {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
                 inset 0 0 15px rgba(0, 123, 255, 0.1);
     border: 1px solid rgba(0, 123, 255, 0.15);
+    backdrop-filter: blur(5px);
+}
+
+.mixer-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 4px,
+            rgba(0, 123, 255, 0.02) 4px,
+            rgba(0, 123, 255, 0.02) 8px);
+    pointer-events: none;
+    opacity: 0.5;
+    border-radius: 15px;
+}
+
+.mixer-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 123, 255, 0.1) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    opacity: 0.5;
+    border-radius: 15px;
 }
 
 .mixer-main {
@@ -454,8 +511,22 @@ body {
 
 .deck-controls {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    gap: 25px;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(0, 123, 255, 0.1);
+}
+
+.social-knob {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-knob:hover {
+    transform: translateY(-5px);
 }
 
 .mixer-knob {
@@ -723,15 +794,35 @@ body {
 /* Effect Panel */
 .effect-panel {
     margin-top: 30px;
-    background: rgba(20, 20, 20, 0.9);
+    background: rgba(20, 20, 20, 0.95);
     border-radius: 15px;
     padding: 20px;
+    border: 1px solid rgba(0, 123, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 20px rgba(0, 123, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.effect-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% -50%,
+        rgba(0, 123, 255, 0.1) 0%,
+        transparent 60%);
+    pointer-events: none;
 }
 
 .effect-row {
     display: flex;
     justify-content: center;
     gap: 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .effect-btn {
@@ -739,18 +830,44 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 10px;
+    padding: 20px;
+    background: linear-gradient(145deg,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 123, 255, 0.05));
+    border-radius: 12px;
     color: white;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 123, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.effect-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center,
+        rgba(0, 123, 255, 0.1) 0%,
+        transparent 50%);
+    transform: scale(0);
+    transition: transform 0.6s ease-out;
 }
 
 .effect-btn:hover {
     transform: translateY(-5px);
-    background: rgba(0, 123, 255, 0.2);
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    background: linear-gradient(145deg,
+        rgba(0, 123, 255, 0.1),
+        rgba(0, 0, 0, 0.8));
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+    border-color: rgba(0, 123, 255, 0.3);
+}
+
+.effect-btn:hover::before {
+    transform: scale(1);
 }
 
 .effect-btn i {
