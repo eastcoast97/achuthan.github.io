@@ -326,9 +326,21 @@ body {
 /* Mixer Section */
 .mixer-section {
     flex: 0.8;
-    background: rgba(20, 20, 20, 0.9);
+    background: rgba(20, 20, 20, 0.95);
     padding: 20px;
     border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 20px;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(0, 123, 255, 0.1);
+    border: 1px solid rgba(0, 123, 255, 0.15);
+}
+
+.mixer-main {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -410,6 +422,107 @@ body {
     box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
 }
 
+.channel-strip .mixer-knob {
+    width: 30px;
+    height: 30px;
+    margin: 5px 0;
+    position: relative;
+}
+
+.channel-strip .mixer-knob::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.channel-strip .mixer-knob:hover::after {
+    opacity: 1;
+}
+
+.channel-strip .mixer-knob::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 12px;
+    background: currentColor;
+    transform-origin: center bottom;
+    transform: translate(-50%, -50%) rotate(0deg);
+    border-radius: 1px;
+    transition: transform 0.3s ease;
+}
+
+.channel-strip .mixer-knob:hover::before {
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+/* EQ Knob Rotation Marks */
+.channel-strip .mixer-knob.eq-high::after,
+.channel-strip .mixer-knob.eq-mid::after,
+.channel-strip .mixer-knob.eq-low::after {
+    font-size: 7px;
+    bottom: -18px;
+}
+
+.channel-strip .mixer-knob.eq-high,
+.channel-strip .mixer-knob.eq-mid,
+.channel-strip .mixer-knob.eq-low {
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+}
+
+/* Rotation marks around knobs */
+.channel-strip .mixer-knob.eq-high::before { background: rgba(255, 0, 0, 0.8); }
+.channel-strip .mixer-knob.eq-mid::before { background: rgba(0, 255, 0, 0.8); }
+.channel-strip .mixer-knob.eq-low::before { background: rgba(255, 255, 0, 0.8); }
+
+.channel-strip .mixer-knob::after {
+    content: attr(title);
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all 0.3s ease;
+}
+
+.channel-strip .mixer-knob:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.channel-strip .mixer-knob.eq-high {
+    border-color: rgba(255, 0, 0, 0.3);
+}
+
+.channel-strip .mixer-knob.eq-mid {
+    border-color: rgba(0, 255, 0, 0.3);
+}
+
+.channel-strip .mixer-knob.eq-low {
+    border-color: rgba(255, 255, 0, 0.3);
+}
+
+.channel-strip .mixer-knob:hover.eq-high {
+    border-color: rgb(255, 0, 0);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.channel-strip .mixer-knob:hover.eq-mid {
+    border-color: rgb(0, 255, 0);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.channel-strip .mixer-knob:hover.eq-low {
+    border-color: rgb(255, 255, 0);
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
+}
+
 .mixer-knob i {
     position: absolute;
     top: 50%;
@@ -419,32 +532,120 @@ body {
     color: #007bff;
 }
 
+@keyframes faderMove {
+    0% { top: 5%; }
+    25% { top: 95%; }
+    50% { top: 5%; }
+    75% { top: 95%; }
+    100% { top: 5%; }
+}
+
+.channel-strip {
+    width: 60px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 123, 255, 0.1);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.channel-strip::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 4px;
+    background: rgba(0, 123, 255, 0.2);
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.channel-strip::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 4px;
+    background: rgba(0, 123, 255, 0.2);
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.channel-strip .level-indicator {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 80%;
+    background: rgba(0, 123, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.channel-strip .level-indicator::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, #007bff, rgba(0, 123, 255, 0.3));
+    animation: levelBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes levelBounce {
+    0%, 100% { height: 30%; }
+    50% { height: 70%; }
+}
+
+.channel-strip.left {
+    margin-right: 10px;
+}
+
+.channel-strip.right {
+    margin-left: 10px;
+}
+
 .mixer-fader {
-    width: 10px;
-    height: 100px;
+    width: 15px;
+    height: 150px;
     background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
-    border-radius: 5px;
+    border-radius: 8px;
     position: relative;
     cursor: pointer;
+    border: 1px solid rgba(0, 123, 255, 0.2);
 }
 
 .mixer-fader::before {
     content: '';
     position: absolute;
-    width: 20px;
-    height: 5px;
+    width: 25px;
+    height: 8px;
     background: #007bff;
     left: -5px;
     top: 50%;
     transform: translateY(-50%);
-    border-radius: 3px;
+    border-radius: 4px;
     transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
 }
 
 .mixer-fader:hover::before {
-    width: 25px;
+    animation: faderMove 1.5s ease-in-out infinite;
+    width: 30px;
     background: #fff;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
 }
 
 .social-knob {
@@ -1140,19 +1341,57 @@ body {
         width: 100%;
         max-width: 300px;
         margin: 0 auto;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .channel-strip {
+        width: 100%;
+        height: 60px;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 5px 10px;
+    }
+
+    .mixer-fader {
+        width: 100px;
+        height: 15px;
+        transform: rotate(90deg);
+        margin: 30px 0;
+    }
+
+    .mixer-fader::before {
+        transform: translateY(-50%) rotate(-90deg);
+        left: 50%;
+    }
+
+    .channel-strip .mixer-knob {
+        width: 25px;
+        height: 25px;
+    }
+
+    .channel-strip .level-indicator {
+        height: 4px;
+        width: 80%;
+        right: 10%;
+        top: auto;
+        bottom: 5px;
+        transform: none;
     }
 
     .mixer-display {
-        height: 80px;
+        height: 60px;
     }
 
     .mixer-controls {
-        gap: 12px;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .mixer-knob {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
     }
 
     .mixer-knob i {
