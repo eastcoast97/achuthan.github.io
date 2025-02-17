@@ -198,14 +198,6 @@ function initTerminal() {
                 } else {
                     await typeText('Processing your message...');
                     
-                    // Prepare email parameters
-                    const emailParams = {
-                        to_email: 'achuthanram97@gmail.com',
-                        from_name: formData[0],
-                        from_email: formData[1],
-                        message: formData[2]
-                    };
-
                     try {
                         // Send email using EmailJS
                         await emailjs.send(
@@ -215,7 +207,7 @@ function initTerminal() {
                                 to_email: 'achuthanram97@gmail.com',
                                 to_name: 'Achuthan',
                                 from_name: formData[0],
-                                email: formData[1],
+                                from_email: formData[1],
                                 message: formData[2]
                             }
                         );
