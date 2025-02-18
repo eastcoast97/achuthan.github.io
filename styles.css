@@ -1407,6 +1407,328 @@ body {
 }
 
 /* Mobile-first Responsive Styles */
+/* Responsive DJ Setup */
+.dj-setup-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+.dj-setup {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+/* Tablet-specific styles */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .dj-container {
+        padding: 20px;
+    }
+
+    .dj-setup {
+        padding: 15px;
+        max-width: 95%;
+        margin: 20px auto;
+    }
+
+    .turntables {
+        gap: 12px;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .dj-deck {
+        flex: 0.28;
+        padding: 15px;
+    }
+
+    .dj-disc {
+        width: 160px;
+        height: 160px;
+    }
+
+    .disc-label {
+        width: 80px;
+        height: 80px;
+    }
+
+    .mixer-section {
+        flex: 0.44;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .mixer-knob {
+        width: 32px;
+        height: 32px;
+    }
+
+    .channel-strip {
+        width: 40px;
+        gap: 8px;
+    }
+
+    .mixer-fader {
+        height: 100px;
+    }
+
+    .mixer-display {
+        height: 80px;
+    }
+
+    .effect-panel {
+        padding: 12px;
+        margin-top: 15px;
+    }
+
+    .effect-row {
+        gap: 12px;
+    }
+
+    .effect-btn {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .effect-btn span {
+        font-size: 0.75rem;
+    }
+}
+
+/* For larger tablets like iPad Pro and Surface Pro */
+@media screen and (min-width: 1025px) and (max-width: 1240px) {
+    .dj-container {
+        padding: 15px;
+    }
+
+    .dj-setup {
+        padding: 15px;
+        max-width: 92%;
+        margin: 15px auto;
+    }
+
+    .turntables {
+        gap: 12px;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .dj-deck {
+        flex: 0.25;
+        padding: 15px;
+    }
+
+    .dj-disc {
+        width: 180px;
+        height: 180px;
+    }
+
+    .disc-label {
+        width: 85px;
+        height: 85px;
+    }
+
+    .mixer-section {
+        flex: 0.5;
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .mixer-knob {
+        width: 32px;
+        height: 32px;
+    }
+
+    .channel-strip {
+        width: 40px;
+        gap: 8px;
+        padding: 10px 8px;
+    }
+
+    .mixer-fader {
+        height: 110px;
+    }
+
+    .mixer-display {
+        height: 90px;
+    }
+
+    .effect-panel {
+        margin-top: 15px;
+        padding: 12px;
+    }
+
+    .effect-row {
+        gap: 12px;
+    }
+
+    .effect-btn {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Specific breakpoint for iPad Air and Surface Pro */
+@media screen and (min-width: 820px) and (max-width: 1024px) {
+    .dj-container {
+        padding: 10px;
+    }
+
+    .dj-setup {
+        max-width: 95%;
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    .turntables {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .dj-deck {
+        width: 180px;
+        min-width: 180px;
+        padding: 10px;
+        overflow: hidden;
+    }
+
+    .dj-disc {
+        width: 130px;
+        height: 130px;
+        margin: 0 auto;
+    }
+
+    .disc-inner {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    .disc-label {
+        width: 65px;
+        height: 65px;
+    }
+
+    .mixer-section {
+        width: 280px;
+        min-width: 280px;
+        padding: 10px;
+        margin: 0 10px;
+    }
+
+    .channel-strip {
+        width: 30px;
+        min-width: 30px;
+        padding: 8px 4px;
+        gap: 6px;
+    }
+
+    .mixer-main {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .mixer-knob {
+        width: 25px;
+        height: 25px;
+    }
+
+    .mixer-fader {
+        height: 85px;
+    }
+
+    .mixer-display {
+        height: 65px;
+    }
+
+    .effect-panel {
+        margin-top: 12px;
+        padding: 12px;
+    }
+
+    .effect-row {
+        gap: 10px;
+    }
+
+    .effect-btn {
+        padding: 10px;
+        flex-basis: calc(33.33% - 10px);
+    }
+}
+
+/* iPad Pro and Surface Pro 7 */
+@media screen and (min-width: 1024px) and (max-width: 1112px) {
+    .dj-setup {
+        max-width: 98%;
+        padding: 15px;
+    }
+
+    .turntables {
+        gap: 20px;
+    }
+
+    .dj-deck {
+        width: 220px;
+        min-width: 220px;
+        padding: 12px;
+        overflow: hidden;
+    }
+
+    .dj-disc {
+        width: 160px;
+        height: 160px;
+        margin: 0 auto;
+    }
+
+    .disc-inner {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    .disc-label {
+        width: 80px;
+        height: 80px;
+    }
+
+    .mixer-section {
+        width: 320px;
+        min-width: 320px;
+        padding: 12px;
+        margin: 0 15px;
+    }
+
+    .channel-strip {
+        width: 35px;
+        min-width: 35px;
+        padding: 8px 5px;
+    }
+
+    .mixer-knob {
+        width: 28px;
+        height: 28px;
+    }
+
+    .mixer-fader {
+        height: 100px;
+    }
+}
+
+/* Common styles for all tablets */
+@media screen and (min-width: 768px) and (max-width: 1112px) {
+    .turntables {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 @media (max-width: 480px) {
     /* Navigation */
     header {
