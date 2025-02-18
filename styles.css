@@ -1358,6 +1358,7 @@ body {
 .terminal-input-line {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .prompt {
@@ -1372,10 +1373,30 @@ body {
     font-family: monospace;
     font-size: 1rem;
     width: 100%;
+    padding-left: 0;
+    caret-color: #00ff00;
+    caret-shape: block;
 }
 
 #terminalInput:focus {
     outline: none;
+}
+
+.terminal-input-line::after {
+    content: '';
+    position: absolute;
+    left: 1.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 16px;
+    background: transparent;
+}
+
+#terminalInput:not(:focus) + .prompt::after {
+    content: '▋';
+    margin-left: 4px;
+    animation: cursor-blink 1s step-end infinite;
 }
 
 .keyboard {

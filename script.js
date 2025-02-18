@@ -323,6 +323,9 @@ function initTerminal() {
             light.style.animation = `blink ${(i + 1) * 0.5}s ease infinite`;
         });
 
+        // Auto-focus the input when scrolled into view
+        input.focus();
+
         await typeText('Initializing contact terminal...');
         await new Promise(resolve => setTimeout(resolve, 500));
         await typeText('Running system checks...');
@@ -336,8 +339,16 @@ function initTerminal() {
 
     initializeTerminal().then(() => {
         input.disabled = false;
+        input.focus(); // Ensure focus is set after enabling
         // Track terminal initialization
         gtag('event', 'contact_form_start');
+    });
+
+    // Re-focus input when clicking anywhere in the terminal section
+    document.querySelector('.terminal-section').addEventListener('click', () => {
+        if (!input.disabled) {
+            input.focus();
+        }
     });
 }
 
