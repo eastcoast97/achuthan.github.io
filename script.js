@@ -19,6 +19,28 @@ function typeText() {
     }
 }
 
+// Analytics: Track scroll depth
+let lastScrollDepth = 0;
+function trackScrollDepth() {
+    const scrollPercent = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
+    const scrollDepthBreakpoints = [25, 50, 75, 90, 100];
+    
+    scrollDepthBreakpoints.forEach(breakpoint => {
+        if (scrollPercent >= breakpoint && lastScrollDepth < breakpoint) {
+            gtag('event', 'scroll_depth', {
+                'depth': breakpoint,
+                'page_percent': breakpoint + '%'
+            });
+        }
+    });
+    
+    lastScrollDepth = scrollPercent;
+}
+
+window.addEventListener('scroll', () => {
+    requestAnimationFrame(trackScrollDepth);
+});
+
 // Start typing animation when page loads or section becomes visible
 const aboutSection = document.getElementById('about');
 const observer = new IntersectionObserver((entries) => {
@@ -26,6 +48,10 @@ const observer = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             charIndex = 0;
             typeText();
+            // Track section view
+            gtag('event', 'section_view', {
+                'section_name': 'about'
+            });
         }
     });
 }, { threshold: 0.5 });
@@ -34,9 +60,7 @@ observer.observe(aboutSection);
 
 // Circuit background animations
 function initCircuitAnimations() {
-    // Find all sections with data-flow-particles
     document.querySelectorAll('.data-flow-particles').forEach(particlesContainer => {
-        // Create data flow particles for each container
         for (let i = 0; i < 50; i++) {
             const particle = document.createElement('div');
             particle.className = 'data-particle';
@@ -98,6 +122,12 @@ function initFadeEffects() {
             if (entry.isIntersecting) {
                 entry.target.classList.add('fade-in');
                 entry.target.classList.remove('fade-out');
+                // Track section view
+                if (entry.target.id) {
+                    gtag('event', 'section_view', {
+                        'section_name': entry.target.id
+                    });
+                }
             } else {
                 entry.target.classList.add('fade-out');
                 entry.target.classList.remove('fade-in');
@@ -108,10 +138,17 @@ function initFadeEffects() {
         rootMargin: '50px'
     });
 
-    // Observe all major sections
     document.querySelectorAll('.hero-section, #about, #Other, .journey-node').forEach(section => {
         section.classList.add('transition-element');
         observer.observe(section);
+    });
+}
+
+// Analytics: Track external link clicks
+function trackExternalLink(url, category) {
+    gtag('event', 'external_link_click', {
+        'link_url': url,
+        'link_category': category
     });
 }
 
@@ -123,6 +160,11 @@ function initSmoothScroll() {
             const targetId = link.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             
+            // Track navigation click
+            gtag('event', 'navigation_click', {
+                'section_name': targetId.replace('#', '')
+            });
+            
             if (targetSection) {
                 const headerOffset = document.querySelector('header').offsetHeight;
                 const elementPosition = targetSection.offsetTop;
@@ -133,6 +175,16 @@ function initSmoothScroll() {
                     behavior: 'smooth'
                 });
             }
+        });
+    });
+
+    // Track project and social link clicks
+    document.querySelectorAll('.effect-btn, .social-knob, .dj-disc').forEach(link => {
+        link.addEventListener('click', () => {
+            const url = link.getAttribute('href');
+            const category = link.classList.contains('effect-btn') ? 'project' :
+                           link.classList.contains('social-knob') ? 'social' : 'music';
+            trackExternalLink(url, category);
         });
     });
 }
@@ -193,16 +245,21 @@ function initTerminal() {
                 await addLine(`> ${value}`, false);
                 currentStep++;
                 
+                // Track form step completion
+                gtag('event', 'contact_form_step', {
+                    'step_number': currentStep,
+                    'step_name': ['name', 'email', 'message'][currentStep - 1]
+                });
+                
                 if (currentStep < prompts.length) {
                     await typeText(prompts[currentStep]);
                 } else {
                     await typeText('Processing your message...');
                     
                     try {
-                        // Send email using EmailJS
                         await emailjs.send(
-                            'service_1wetp6c', // EmailJS service ID
-                            'template_325aerc', // EmailJS template ID
+                            'service_1wetp6c',
+                            'template_325aerc',
                             {
                                 to_email: 'achuthanram97@gmail.com',
                                 to_name: 'Achuthan',
@@ -212,12 +269,16 @@ function initTerminal() {
                             }
                         );
                         
+                        // Track successful form submission
+                        gtag('event', 'contact_form_submit', {
+                            'status': 'success'
+                        });
+                        
                         await typeText('Message sent successfully!');
                         await new Promise(resolve => setTimeout(resolve, 500));
                         await typeText('Thank you for reaching out. I will be in touch soon!');
                         input.disabled = true;
                         
-                        // Success animation
                         document.querySelectorAll('.light').forEach((light, i) => {
                             setTimeout(() => {
                                 light.style.background = '#27c93f';
@@ -225,14 +286,23 @@ function initTerminal() {
                             }, i * 200);
                         });
                     } catch (error) {
+                        // Track form error
+                        gtag('event', 'contact_form_error', {
+                            'error_type': error.message
+                        });
+                        
                         await typeText('Error sending message. Please try again later.');
-                        // Reset form
                         currentStep = 0;
                         formData = {};
                         await typeText(prompts[0]);
                     }
                 }
             } else {
+                // Track validation error
+                gtag('event', 'contact_form_validation_error', {
+                    'field': ['name', 'email', 'message'][currentStep]
+                });
+                
                 await typeText('Invalid input. Please try again.');
                 await typeText(prompts[currentStep]);
             }
@@ -246,9 +316,7 @@ function initTerminal() {
         }
     });
 
-    // Initialize with animated welcome message
     async function initializeTerminal() {
-        // Start loading animation
         const lights = document.querySelectorAll('.light');
         lights.forEach((light, i) => {
             light.style.background = '#ffbd2e';
@@ -266,9 +334,10 @@ function initTerminal() {
         await typeText(prompts[0]);
     }
 
-    // Start the terminal and enable input after initialization
     initializeTerminal().then(() => {
         input.disabled = false;
+        // Track terminal initialization
+        gtag('event', 'contact_form_start');
     });
 }
 
@@ -279,35 +348,33 @@ window.onbeforeunload = function () {
 
 // Initialize everything on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-    // Ensure we're at the top
     window.scrollTo(0, 0);
     
-    // Re-enable scrolling after a short delay
     setTimeout(() => {
         document.documentElement.style.overflowY = '';
     }, 100);
 
-    // Show initial content and initialize animations
     document.querySelector('.hero-text').style.opacity = '1';
     document.querySelectorAll('.circuit-background, .data-flow-particles').forEach(element => {
         element.style.opacity = '1';
     });
     
-    // Initialize all animations
     initCircuitAnimations();
     initFadeEffects();
     initSmoothScroll();
-    
-    // Initialize timeline
     addTimelineParallax();
     
-    // Initialize terminal when scrolled into view
+    // Track page load timing
+    gtag('event', 'page_load_complete', {
+        'load_time': performance.now()
+    });
+    
     const terminalSection = document.getElementById('contact');
     const terminalObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 initTerminal();
-                terminalObserver.disconnect(); // Only initialize once
+                terminalObserver.disconnect();
             }
         });
     }, {
@@ -321,6 +388,11 @@ document.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.dj-disc').forEach(disc => {
     disc.addEventListener('mouseenter', function() {
         this.style.animationDuration = '2s';
+        // Track DJ deck interaction
+        gtag('event', 'dj_deck_interaction', {
+            'deck': this.dataset.project,
+            'action': 'hover'
+        });
     });
     
     disc.addEventListener('mouseleave', function() {
