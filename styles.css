@@ -246,20 +246,23 @@ body {
     z-index: 2;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 40px;
+    padding: 40px 40px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .dj-setup {
     margin-top: 40px;
     background: rgba(30, 30, 30, 0.95);
     border-radius: 20px;
-    padding: 30px;
+    padding: 30px 40px;
     box-shadow: 0 0 50px rgba(0, 123, 255, 0.2),
                 inset 0 0 30px rgba(0, 123, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 123, 255, 0.1);
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .dj-setup::before {
@@ -286,20 +289,24 @@ body {
 
 .turntables {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 30px;
+    gap: 40px;
+    margin: 0 auto 30px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .dj-deck {
-    flex: 1;
+    flex: 0.3;
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    margin: 0 auto;
 }
 
 .dj-disc {
@@ -399,7 +406,7 @@ body {
 
 /* Mixer Section */
 .mixer-section {
-    flex: 0.8;
+    flex: 0.4;
     background: rgba(20, 20, 20, 0.95);
     padding: 20px;
     border-radius: 15px;
