@@ -258,7 +258,7 @@ function initTerminal() {
                     
                     try {
                         await emailjs.send(
-                            'service_1wetp6c',
+                            'service_qk0fimk',
                             'template_325aerc',
                             {
                                 to_email: 'achuthanram97@gmail.com',
