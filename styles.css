@@ -1339,9 +1339,19 @@ body {
     min-height: 100vh;
     background: linear-gradient(180deg, #000510, #001529);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     scroll-margin-top: 5rem;
+}
+
+.terminal-section h2 {
+    text-align: center;
+    font-size: 3.5rem;
+    color: #007bff;
+    margin-bottom: 60px;
+    text-shadow: 0 0 30px rgba(0, 123, 255, 0.4);
+    animation: glow-pulse 2s ease-in-out infinite;
 }
 
 .terminal-container {
