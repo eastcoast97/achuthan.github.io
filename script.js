@@ -261,7 +261,7 @@ function initTerminal() {
                             'service_qk0fimk',
                             'template_325aerc',
                             {
-                                to_email: 'achuthanram97@gmail.com',
+                                to_email: 'achuthanram12@gmail.com',
                                 to_name: 'Achuthan',
                                 from_name: formData[0],
                                 from_email: formData[1],
